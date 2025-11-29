@@ -1,0 +1,31 @@
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Archivos del editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Archivos de configuración local
+.env
+config.local.js
+
+# Dependencias (si se agregan en el futuro)
+node_modules/
+bower_components/
+
+# Archivos de log
+*.log
+npm-debug.log*
+
+# Archivos temporales
+*.tmp
+*.temp
+
+# Carpetas de build (si se agregan en el futuro)
+dist/
+build/

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Tareas - V1.0</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>📝 Mi Gestor de Tareas</h1>
+            <p class="subtitle">Organiza tu día de manera eficiente</p>
+        </header>
+
+        <main>
+            <div class="add-task-section">
+                <input type="text" id="taskInput" placeholder="Escribe una nueva tarea...">
+                <button id="addTaskBtn" class="btn-primary">Agregar Tarea</button>
+            </div>
+
+            <div class="stats">
+                <span>Total: <strong id="totalTasks">0</strong></span>
+                <span>Pendientes: <strong id="pendingTasks">0</strong></span>
+                <span>Completadas: <strong id="completedTasks">0</strong></span>
+            </div>
+
+            <div id="taskList" class="task-list">
+                <!-- Las tareas se cargarán dinámicamente aquí -->
+            </div>
+        </main>
+
+        <footer>
+            <p>Desarrollado por: Grupo de Mantenimiento de Software 2024</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
