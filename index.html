@@ -9,10 +9,32 @@
 </head>
 
 <body>
+
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <h2>🔐 Iniciar Sesión</h2>
+            <input type="text" id="usernameInput" placeholder="Nombre de usuario">
+            <input type="password" id="passwordInput" placeholder="Contraseña">
+            <button id="loginBtn" class="btn-primary">Entrar</button>
+            <p class="login-hint">Usuario: demo / Contraseña: 1234</p>
+        </div>
+    </div>
+
+    <div class="container" id="appContainer" style="display: none;"></div>
+
+
     <div class="container">
         <header>
-            <h1>📝 Mi Gestor de Tareas</h1>
-            <p class="subtitle">Organiza tu día de manera eficiente</p>
+            <div class="header-content">
+                <div>
+                    <h1>📝 Mi Gestor de Tareas</h1>
+                    <p class="subtitle">Organiza tu día de manera eficiente</p>
+                </div>
+                <div class="user-info">
+                    <span id="userName"></span>
+                    <button id="logoutBtn" class="btn-logout">Cerrar Sesión</button>
+                </div>
+            </div>
         </header>
 
         <main>
@@ -39,5 +61,6 @@
 
     <script src="script.js"></script>
 </body>
+
 
 </html>

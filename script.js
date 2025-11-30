@@ -1,6 +1,8 @@
 // ===== VARIABLES GLOBALES =====
 let tasks = [];
 let taskIdCounter = 1;
+// ===== SISTEMA DE LOGIN =====
+let currentUser = null;
 
 // ===== ELEMENTOS DEL DOM =====
 const taskInput = document.getElementById('taskInput');
@@ -9,6 +11,85 @@ const taskList = document.getElementById('taskList');
 const totalTasksEl = document.getElementById('totalTasks');
 const pendingTasksEl = document.getElementById('pendingTasks');
 const completedTasksEl = document.getElementById('completedTasks');
+
+// Elementos del login
+const loginModal = document.getElementById('loginModal');
+const usernameInput = document.getElementById('usernameInput');
+const passwordInput = document.getElementById('passwordInput');
+const loginBtn = document.getElementById('loginBtn');
+const appContainer = document.getElementById('appContainer');
+const userNameEl = document.getElementById('userName');
+const logoutBtn = document.getElementById('logoutBtn');
+
+// Usuarios de demostración
+const users = {
+    'demo': '1234',
+    'admin': 'admin',
+    'user': 'pass'
+};
+
+
+// Evento de login
+loginBtn.addEventListener('click', handleLogin);
+passwordInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') handleLogin();
+});
+
+// Evento de logout
+logoutBtn.addEventListener('click', handleLogout);
+
+// Función de login
+function handleLogin() {
+    const username = usernameInput.value.trim();
+    const password = passwordInput.value;
+    
+    if (username === '' || password === '') {
+        alert('Por favor completa todos los campos');
+        return;
+    }
+    
+    if (users[username] && users[username] === password) {
+        currentUser = username;
+        localStorage.setItem('currentUser', username);
+        showApp();
+    } else {
+        alert('Usuario o contraseña incorrectos');
+    }
+}
+
+// Función de logout
+function handleLogout() {
+    currentUser = null;
+    localStorage.removeItem('currentUser');
+    hideApp();
+}
+
+// Mostrar aplicación
+function showApp() {
+    loginModal.style.display = 'none';
+    appContainer.style.display = 'block';
+    userNameEl.textContent = `👤 ${currentUser}`;
+    loadFromLocalStorage();
+}
+
+// Ocultar aplicación
+function hideApp() {
+    loginModal.style.display = 'flex';
+    appContainer.style.display = 'none';
+    usernameInput.value = '';
+    passwordInput.value = '';
+}
+
+// Verificar sesión al cargar
+document.addEventListener('DOMContentLoaded', () => {
+    const savedUser = localStorage.getItem('currentUser');
+    if (savedUser) {
+        currentUser = savedUser;
+        showApp();
+    } else {
+        hideApp();
+    }
+});
 
 // ===== EVENTOS =====
 addTaskBtn.addEventListener('click', addTask);
