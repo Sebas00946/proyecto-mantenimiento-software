@@ -1,8 +1,12 @@
 // ===== VARIABLES GLOBALES =====
 let tasks = [];
 let taskIdCounter = 1;
+
 // ===== SISTEMA DE LOGIN =====
 let currentUser = null;
+
+// ===== FILTROS =====
+let currentFilter = 'all';
 
 // ===== ELEMENTOS DEL DOM =====
 const taskInput = document.getElementById('taskInput');
@@ -42,12 +46,12 @@ logoutBtn.addEventListener('click', handleLogout);
 function handleLogin() {
     const username = usernameInput.value.trim();
     const password = passwordInput.value;
-    
+
     if (username === '' || password === '') {
         alert('Por favor completa todos los campos');
         return;
     }
-    
+
     if (users[username] && users[username] === password) {
         currentUser = username;
         localStorage.setItem('currentUser', username);
@@ -90,6 +94,53 @@ document.addEventListener('DOMContentLoaded', () => {
         hideApp();
     }
 });
+
+
+// Eventos de filtros
+document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        currentFilter = btn.dataset.filter;
+
+        // Actualizar botones activos
+        document.querySelectorAll('.filter-btn').forEach(b => {
+            b.classList.remove('active');
+        });
+        btn.classList.add('active');
+
+        renderTasks();
+    });
+});
+
+// Modificar renderTasks para aplicar filtro
+function renderTasks() {
+    taskList.innerHTML = '';
+
+    let filteredTasks = tasks;
+
+    if (currentFilter === 'pending') {
+        filteredTasks = tasks.filter(t => !t.completed);
+    } else if (currentFilter === 'completed') {
+        filteredTasks = tasks.filter(t => t.completed);
+    }
+
+    filteredTasks.forEach(task => {
+        const taskElement = createTaskElement(task);
+        taskList.appendChild(taskElement);
+    });
+
+    updateFilterCounts();
+}
+
+// Actualizar contadores de filtros
+function updateFilterCounts() {
+    const all = tasks.length;
+    const completed = tasks.filter(t => t.completed).length;
+    const pending = all - completed;
+
+    document.getElementById('filterAll').textContent = all;
+    document.getElementById('filterPending').textContent = pending;
+    document.getElementById('filterCompleted').textContent = completed;
+}
 
 // ===== EVENTOS =====
 addTaskBtn.addEventListener('click', addTask);
@@ -254,3 +305,4 @@ document.addEventListener('DOMContentLoaded', () => {
     loadFromLocalStorage(); // ← AGREGAR ESTA LÍNEA
     updateStats();
 });
+
