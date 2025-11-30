@@ -100,3 +100,76 @@ function updateStats() {
 document.addEventListener('DOMContentLoaded', () => {
     updateStats();
 });
+
+// ===== PERSISTENCIA CON LOCALSTORAGE =====
+
+// Guardar tareas en localStorage
+function saveToLocalStorage() {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    localStorage.setItem('taskIdCounter', taskIdCounter.toString());
+}
+
+// Cargar tareas desde localStorage
+function loadFromLocalStorage() {
+    const savedTasks = localStorage.getItem('tasks');
+    const savedCounter = localStorage.getItem('taskIdCounter');
+
+    if (savedTasks) {
+        tasks = JSON.parse(savedTasks);
+    }
+
+    if (savedCounter) {
+        taskIdCounter = parseInt(savedCounter);
+    }
+
+    renderTasks();
+    updateStats();
+}
+
+// Modificar función addTask para guardar
+function addTask() {
+    const taskText = taskInput.value.trim();
+
+    if (taskText === '') {
+        alert('Por favor, escribe una tarea');
+        return;
+    }
+
+    const newTask = {
+        id: taskIdCounter++,
+        text: taskText,
+        completed: false,
+        createdAt: new Date().toLocaleString()
+    };
+
+    tasks.push(newTask);
+    taskInput.value = '';
+    saveToLocalStorage(); // ← AGREGAR ESTA LÍNEA
+    renderTasks();
+    updateStats();
+}
+
+// Modificar toggleTask para guardar
+function toggleTask(id) {
+    const task = tasks.find(t => t.id === id);
+    if (task) {
+        task.completed = !task.completed;
+        saveToLocalStorage(); // ← AGREGAR ESTA LÍNEA
+        renderTasks();
+        updateStats();
+    }
+}
+
+// Modificar deleteTask para guardar
+function deleteTask(id) {
+    tasks = tasks.filter(t => t.id !== id);
+    saveToLocalStorage(); // ← AGREGAR ESTA LÍNEA
+    renderTasks();
+    updateStats();
+}
+
+// Modificar inicialización
+document.addEventListener('DOMContentLoaded', () => {
+    loadFromLocalStorage(); // ← AGREGAR ESTA LÍNEA
+    updateStats();
+});
